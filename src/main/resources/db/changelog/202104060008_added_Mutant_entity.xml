@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.9.xsd
+                        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+
+    <changeSet id="00000000000000" author="Jhorkman">
+        <createSequence sequenceName="sequence_generator" startValue="1050" incrementBy="50"/>
+    </changeSet>
+
+    <changeSet id="20210406000900-1" author="Jhorkman">
+        <createTable tableName="mutants">
+            <column name="id" type="BIGSERIAL">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+
+            <column name="dna" type="varchar"/>
+
+        </createTable>
+    </changeSet>
+
+    <changeSet id="20210406000900-2" author="Jhorkman">
+        <addUniqueConstraint tableName="mutants" columnNames="dna" constraintName="ux_dna"/>
+    </changeSet>
+
+    <changeSet id="20210406002400-1" author="Jhorkman">
+        <createIndex tableName="mutants" indexName="dna_index">
+            <column name="dna"/>
+        </createIndex>
+    </changeSet>
+
+
+</databaseChangeLog>

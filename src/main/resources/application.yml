@@ -1,0 +1,24 @@
+
+logging:
+  level:
+    com.software.magneto: DEBUG
+
+
+spring:
+  profiles:
+    active: dev
+
+  application:
+      name: MagnetoSystem
+  datasource:
+    url: jdbc:postgresql://localhost:5432/mutants
+    password: mercado
+    username: mercado
+    driver-class-name: org.postgresql.Driver
+
+  liquibase:
+    contexts: dev, faker
+
+
+server:
+  port: 8084
