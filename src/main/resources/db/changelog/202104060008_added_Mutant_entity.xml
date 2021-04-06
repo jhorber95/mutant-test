@@ -32,5 +32,18 @@
         </createIndex>
     </changeSet>
 
+    <changeSet id="20210406095600-1" author="Jhorkman">
+        <addColumn tableName="mutants">
+            <column name="is_mutant" type="boolean"/>
+        </addColumn>
+    </changeSet>
+
+    <changeSet id="20210406095600-2" author="Jhorkman">
+        <createView viewName="mutant_statics">
+            SELECT is_mutant, COUNT(is_mutant) AS total FROM mutants GROUP BY is_mutant;
+        </createView>
+    </changeSet>
+
+
 
 </databaseChangeLog>

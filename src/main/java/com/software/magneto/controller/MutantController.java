@@ -2,13 +2,11 @@ package com.software.magneto.controller;
 
 import com.software.magneto.service.MutantService;
 import com.software.magneto.service.dto.DNAVerificationRequestDTO;
+import com.software.magneto.service.dto.StatisticDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping
@@ -25,5 +23,10 @@ public class MutantController {
             return new ResponseEntity<>(HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+    }
+
+    @GetMapping("/stats")
+    public ResponseEntity<StatisticDTO> stats() {
+        return new ResponseEntity<>(service.getStatistic(), HttpStatus.OK);
     }
 }

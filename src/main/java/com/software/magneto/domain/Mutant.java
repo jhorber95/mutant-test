@@ -23,4 +23,5 @@ public class Mutant implements Serializable {
     @SequenceGenerator(name = "sequenceGenerator")
     private Long id;
     private String dna;
+    private Boolean isMutant;
 }

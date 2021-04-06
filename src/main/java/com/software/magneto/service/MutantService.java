@@ -1,10 +1,11 @@
 package com.software.magneto.service;
 
 import com.software.magneto.domain.Mutant;
+import com.software.magneto.domain.Statistics;
 import com.software.magneto.repository.MutantRepository;
+import com.software.magneto.repository.StatisticsRepository;
 import com.software.magneto.service.dto.DNAVerificationRequestDTO;
-import com.software.magneto.service.mapper.MutantMapper;
-import liquibase.pro.packaged.M;
+import com.software.magneto.service.dto.StatisticDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -21,17 +22,18 @@ import java.util.stream.Collectors;
 public class MutantService {
 
     private final MutantRepository repository;
+    private final StatisticsRepository statisticsRepository;
 //    private final MutantMapper mapper;
 
     public boolean isMutant(DNAVerificationRequestDTO data) {
 
-        String dna = String.join("", data.getDna());
+        String dna = String.join(",", data.getDna());
 
         Optional<Mutant> optional = repository.findByDna(dna);
 
-        /*if (optional.isPresent()) {
+        if (optional.isPresent()) {
             return false;
-        }*/
+        }
 
         String[][] arrays = {};
 
@@ -46,11 +48,33 @@ public class MutantService {
         if (totalMatchers >= 1) {
             log.debug(" :: is mutant. Total matchers {}", totalMatchers);
         }
-        Mutant entity = Mutant.builder().dna(dna).build();
+        Mutant entity = Mutant.builder()
+                .dna(dna)
+                .isMutant(totalMatchers >= 1)
+                .build();
 
-       // repository.save(entity);
+        repository.save(entity);
 
         return !data.getDna().isEmpty();
+    }
+
+    public StatisticDTO getStatistic() {
+        List<Statistics> data = statisticsRepository.findAll();
+
+        StatisticDTO response = new StatisticDTO();
+        for (Statistics s : data) {
+            if (s.getIsMutant()) {
+                response.setCountMutantDna(s.getTotal());
+            } else {
+                response.setCountHumanDna(s.getTotal());
+            }
+        }
+
+        double ratio = response.getCountMutantDna() / response.getCountHumanDna();
+        response.setRatio(ratio);
+
+        return response;
+
     }
 
     private int checkString(String s) {
