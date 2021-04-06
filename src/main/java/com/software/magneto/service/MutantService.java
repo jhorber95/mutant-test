@@ -6,6 +6,7 @@ import com.software.magneto.repository.MutantRepository;
 import com.software.magneto.repository.StatisticsRepository;
 import com.software.magneto.service.dto.DNAVerificationRequestDTO;
 import com.software.magneto.service.dto.StatisticDTO;
+import com.software.magneto.utils.Util;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -16,6 +17,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
+
+
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -23,7 +26,6 @@ public class MutantService {
 
     private final MutantRepository repository;
     private final StatisticsRepository statisticsRepository;
-//    private final MutantMapper mapper;
 
     public boolean isMutant(DNAVerificationRequestDTO data) {
 
@@ -55,7 +57,7 @@ public class MutantService {
 
         repository.save(entity);
 
-        return !data.getDna().isEmpty();
+        return totalMatchers >= 1;
     }
 
     public StatisticDTO getStatistic() {
@@ -70,8 +72,8 @@ public class MutantService {
             }
         }
 
-        double ratio = response.getCountMutantDna() / response.getCountHumanDna();
-        response.setRatio(ratio);
+        double ratio =  (double) response.getCountMutantDna() / response.getCountHumanDna();
+        response.setRatio(Util.round(ratio, 1));
 
         return response;
 
@@ -142,7 +144,6 @@ public class MutantService {
                 }
                 k++;
             }
-//            log.debug(s.toString());
             contMatchers += checkString(s.toString());
 
             j1--;
@@ -150,7 +151,8 @@ public class MutantService {
 
         int i1 = 1;
         while (i1 < rows) {
-            int j = i1, k = 0;
+            int j = i1;
+            int k = 0;
             StringBuilder s = new StringBuilder();
 
             while (j < rows && k < cols) {
