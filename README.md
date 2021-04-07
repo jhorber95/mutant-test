@@ -1,4 +1,4 @@
-# Magneso mutant system
+# Magneto mutant system
 
 ## Development
 
@@ -39,17 +39,6 @@ java -jar build/libs/*.jar
 
 Then navigate to [http://localhost:8080](http://localhost:8080) in your browser.
 
-
-### Packaging as war
-
-To package your application as a war in order to deploy it to an application server, run:
-
-```
-
-./gradlew -Pprod -Pwar clean bootWar
-
-
-```
 
 ## Testing
 
@@ -102,7 +91,7 @@ You can also fully dockerize your application and all the services that it depen
 To achieve this, first build a docker image of your app by running:
 
 ```
-./gradlew bootJar -Pprod jibDockerBuild
+./gradlew bootJar jibDockerBuild
 ```
 
 Then run:
@@ -112,5 +101,5 @@ docker-compose -f src/main/docker/app.yml up -d
 ```
 
 [using docker and docker-compose]: https://docs.docker.com/compose/
-[code quality page]: https://www.sonarqube.org/
+[code quality page]: https://docs.sonarqube.org/latest/
 [Gradle]: https://gradle.org/
