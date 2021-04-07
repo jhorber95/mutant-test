@@ -30,19 +30,20 @@ public class AsyncSpringLiquibase extends DataSourceClosingSpringLiquibase {
         this.env = env;
     }
 
+    @Override
     public void afterPropertiesSet() throws LiquibaseException {
-        if (!this.env.acceptsProfiles(Profiles.of(new String[]{"no-liquibase"}))) {
-            if (this.env.acceptsProfiles(Profiles.of(new String[]{"dev|heroku"}))) {
+        if (!this.env.acceptsProfiles(Profiles.of("no-liquibase"))) {
+            if (this.env.acceptsProfiles(Profiles.of("dev|heroku"))) {
                 try {
                     Connection connection = this.getDataSource().getConnection();
 
                     try {
                         this.executor.execute(() -> {
                             try {
-                                this.logger.warn("Starting Liquibase asynchronously, your database might not be ready at startup!");
+                                this.logger.warn(STARTING_ASYNC_MESSAGE);
                                 this.initDb();
                             } catch (LiquibaseException var2) {
-                                this.logger.error("Liquibase could not start correctly, your database is NOT ready: {}", var2.getMessage(), var2);
+                                this.logger.error(EXCEPTION_MESSAGE, var2.getMessage(), var2);
                             }
 
                         });
@@ -62,14 +63,14 @@ public class AsyncSpringLiquibase extends DataSourceClosingSpringLiquibase {
                         connection.close();
                     }
                 } catch (SQLException var6) {
-                    this.logger.error("Liquibase could not start correctly, your database is NOT ready: {}", var6.getMessage(), var6);
+                    this.logger.error(EXCEPTION_MESSAGE, var6.getMessage(), var6);
                 }
             } else {
-                this.logger.debug("Starting Liquibase synchronously");
+                this.logger.debug(STARTING_ASYNC_MESSAGE);
                 this.initDb();
             }
         } else {
-            this.logger.debug("Liquibase is disabled");
+            this.logger.debug(DISABLED_MESSAGE);
         }
 
     }
@@ -79,9 +80,9 @@ public class AsyncSpringLiquibase extends DataSourceClosingSpringLiquibase {
         watch.start();
         super.afterPropertiesSet();
         watch.stop();
-        this.logger.debug("Liquibase has updated your database in {} ms", watch.getTotalTimeMillis());
+        this.logger.debug(STARTED_MESSAGE, watch.getTotalTimeMillis());
         if (watch.getTotalTimeMillis() > 5000L) {
-            this.logger.warn("Warning, Liquibase took more than {} seconds to start up!", 5L);
+            this.logger.warn(SLOWNESS_MESSAGE, 5L);
         }
 
     }

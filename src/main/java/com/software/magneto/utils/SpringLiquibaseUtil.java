@@ -1,8 +1,6 @@
 package com.software.magneto.utils;
 
-import liquibase.integration.spring.SpringLiquibase;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
-import org.springframework.boot.autoconfigure.liquibase.DataSourceClosingSpringLiquibase;
 import org.springframework.boot.autoconfigure.liquibase.LiquibaseProperties;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.core.env.Environment;
@@ -16,19 +14,6 @@ import java.util.function.Supplier;
 public class SpringLiquibaseUtil {
 
     private SpringLiquibaseUtil() {
-    }
-
-    public static SpringLiquibase createSpringLiquibase(DataSource liquibaseDatasource, LiquibaseProperties liquibaseProperties, DataSource dataSource, DataSourceProperties dataSourceProperties) {
-        DataSource liquibaseDataSource = getDataSource(liquibaseDatasource, liquibaseProperties, dataSource);
-        if (liquibaseDataSource != null) {
-            SpringLiquibase liquibase = new SpringLiquibase();
-            liquibase.setDataSource(liquibaseDataSource);
-            return liquibase;
-        } else {
-            SpringLiquibase liquibase = new DataSourceClosingSpringLiquibase();
-            liquibase.setDataSource(createNewDataSource(liquibaseProperties, dataSourceProperties));
-            return liquibase;
-        }
     }
 
     public static AsyncSpringLiquibase createAsyncSpringLiquibase(Environment env, Executor executor, DataSource liquibaseDatasource, LiquibaseProperties liquibaseProperties, DataSource dataSource, DataSourceProperties dataSourceProperties) {
@@ -54,7 +39,7 @@ public class SpringLiquibaseUtil {
 
     private static DataSource createNewDataSource(LiquibaseProperties liquibaseProperties, DataSourceProperties dataSourceProperties) {
         Objects.requireNonNull(liquibaseProperties);
-        Supplier var10000 = liquibaseProperties::getUrl;
+        Supplier<String> var10000 = liquibaseProperties::getUrl;
         Objects.requireNonNull(dataSourceProperties);
         String url = getProperty(var10000, dataSourceProperties::determineUrl);
         Objects.requireNonNull(liquibaseProperties);
@@ -69,6 +54,6 @@ public class SpringLiquibaseUtil {
     }
 
     private static String getProperty(Supplier<String> property, Supplier<String> defaultValue) {
-        return (String) Optional.of(property).map(Supplier::get).orElseGet(defaultValue);
+        return Optional.of(property).map(Supplier::get).orElseGet(defaultValue);
     }
 }

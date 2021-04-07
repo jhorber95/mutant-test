@@ -1,0 +1,11 @@
+version: '2'
+services:
+  magneto-postgresql:
+    image: postgres:12.3
+    # volumes:
+    environment:
+      - POSTGRES_USER=mercado
+      - POSTGRES_PASSWORD=mercado
+      - POSTGRES_HOST_AUTH_METHOD=trust
+    ports:
+      - 5432:5432

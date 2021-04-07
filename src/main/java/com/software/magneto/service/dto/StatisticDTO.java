@@ -12,9 +12,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class StatisticDTO {
     @JsonProperty("count_mutant_dna")
-    private Integer countMutantDna;
+    private Long countMutantDna;
     @JsonProperty("count_human_dna")
-    private Integer countHumanDna;
+    private Long countHumanDna;
     private Double ratio;
 
 }

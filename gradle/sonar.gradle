@@ -1,0 +1,43 @@
+configurations {
+    lombokDependency { transitive = false }
+}
+
+dependencies {
+    lombokDependency 'org.projectlombok:lombok'
+}
+
+task copyDependencies(type: Copy) {
+    from configurations.lombokDependency.singleFile
+    into "$buildDir/dependencies"
+}
+
+processResources.dependsOn(copyDependencies)
+
+jacoco {
+    toolVersion = "${jacocoToolVersion}"
+}
+
+jacocoTestReport {
+    executionData tasks.withType(Test)
+    classDirectories.from = files(sourceSets.main.output.classesDirs)
+    sourceDirectories.from = files(sourceSets.main.java.srcDirs)
+
+    reports {
+        xml.enabled = true
+    }
+
+    dependsOn test
+}
+
+file("sonar-project.properties").withReader {
+    Properties sonarProperties = new Properties()
+    sonarProperties.load(it)
+
+    sonarProperties.each { key, value ->
+        sonarqube {
+            properties {
+                property key, value
+            }
+        }
+    }
+}

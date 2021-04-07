@@ -16,7 +16,7 @@ public class MutantController {
     private final MutantService service;
 
     @PostMapping("/mutant")
-    public ResponseEntity verifyDna(@RequestBody DNAVerificationRequestDTO data) {
+    public ResponseEntity<?> verifyDna(@RequestBody DNAVerificationRequestDTO data) {
         boolean response = service.isMutant(data);
 
         if (response) {

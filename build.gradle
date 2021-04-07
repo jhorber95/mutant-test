@@ -3,11 +3,17 @@ plugins {
     id 'io.spring.dependency-management' version '1.0.11.RELEASE'
     id 'org.asciidoctor.convert' version '1.5.8'
     id 'java'
+    id "org.sonarqube" version "3.1.1"
+    id 'jacoco'
 }
 
 group = 'com.software'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '11'
+
+allprojects {
+//    apply from: "gradle/sonar.gradle"
+}
 
 configurations {
     compileOnly {
@@ -17,6 +23,7 @@ configurations {
 
 repositories {
     mavenCentral()
+    maven { url "https://repo.spring.io/plugins-release" }
 }
 
 ext {
@@ -36,11 +43,6 @@ dependencies {
     testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
     implementation group: 'org.mapstruct', name: 'mapstruct', version: '1.4.2.Final'
     implementation group: 'org.apache.commons', name: 'commons-lang3', version: '3.12.0'
-
-
-
-
-
     annotationProcessor 'org.projectlombok:lombok'
     annotationProcessor 'org.mapstruct:mapstruct-processor:1.4.2.Final'
 }
@@ -48,6 +50,12 @@ dependencies {
 test {
     outputs.dir snippetsDir
     useJUnitPlatform()
+}
+
+jacocoTestReport {
+    reports {
+        xml.enabled true
+    }
 }
 
 asciidoctor {

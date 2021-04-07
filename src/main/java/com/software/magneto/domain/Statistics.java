@@ -20,5 +20,5 @@ public class Statistics implements Serializable {
 
     @Id
     private Boolean isMutant;
-    private Integer total;
+    private Long total;
 }
