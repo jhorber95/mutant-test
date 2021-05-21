@@ -7,6 +7,6 @@ metadata:
 spec:
   containers:
     - name: magneto-app
-      image: christianhxc/api-hello:1.0
+      image: jhorber95/magneto:1.0
       ports:
         - containerPort: 8080
