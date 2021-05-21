@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: magneto-app-deployment
+  labels:
+    app: magneto-app
+spec:
+  replicas: 10
+  selector:
+    matchLabels:
+      app: magneto-app
+  template:
+    metadata:
+      labels:
+        app: magneto-app
+    spec:
+      containers:
+        - name: magneto-app
+          image: christianhxc/api-hello:1.0
+          ports:
+            - containerPort: 8080

@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: magneto-app-pod
+  labels:
+    app: magneto-app
+spec:
+  containers:
+    - name: magneto-app
+      image: christianhxc/api-hello:1.0
+      ports:
+        - containerPort: 8080
