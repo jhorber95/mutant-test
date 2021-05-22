@@ -10,3 +10,12 @@ spec:
       image: jhorber95/magneto:1.0
       ports:
         - containerPort: 8080
+      env:
+        - name: _JAVA_OPTIONS
+          value: -Xmx512m -Xms256m
+        - name: SPRING_PROFILES_ACTIVE
+          value: prod,swagger
+        - name: SPRING_DATASOURCE_URL
+          value: jdbc:postgresql://localhost:5432/mercado
+        - name: APP_SLEEP
+          value: 30

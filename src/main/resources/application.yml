@@ -11,7 +11,7 @@ spring:
   application:
       name: MagnetoSystem
   datasource:
-    url: jdbc:postgresql://localhost:5432/mutants
+    url: jdbc:postgresql://localhost:5432/mercado
     password: mercado
     username: mercado
     driver-class-name: org.postgresql.Driver
