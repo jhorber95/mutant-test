@@ -46,7 +46,7 @@ spec:
               done
       containers:
         - name: magneto-app
-          image: jhorber95/magneto:1.0
+          image: jhorber95/magneto:2.0
           env:
             - name: SPRING_PROFILES_ACTIVE
               value: prod
