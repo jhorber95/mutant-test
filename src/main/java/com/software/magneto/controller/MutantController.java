@@ -29,4 +29,9 @@ public class MutantController {
     public ResponseEntity<StatisticDTO> stats() {
         return new ResponseEntity<>(service.getStatistic(), HttpStatus.OK);
     }
+
+    @GetMapping("/")
+    public ResponseEntity<String> index(){
+        return new ResponseEntity<>("Mutant selector system", HttpStatus.OK);
+    }
 }
