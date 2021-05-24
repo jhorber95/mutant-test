@@ -16,6 +16,6 @@ spec:
     spec:
       containers:
         - name: magneto-app
-          image: jhorber95/magneto:1.0
+          image: jhorber95/magneto:2.0
           ports:
             - containerPort: 8080

@@ -7,7 +7,7 @@ metadata:
 spec:
   containers:
     - name: magneto-app
-      image: jhorber95/magneto:1.0
+      image: jhorber95/magneto:2.0
       ports:
         - containerPort: 8080
       env:
@@ -16,6 +16,6 @@ spec:
         - name: SPRING_PROFILES_ACTIVE
           value: prod,swagger
         - name: SPRING_DATASOURCE_URL
-          value: jdbc:postgresql://localhost:5432/mercado
+          value: jdbc:postgresql://magneto-postgresql.default.svc.cluster.local:5432/mercado
         - name: APP_SLEEP
           value: 30
