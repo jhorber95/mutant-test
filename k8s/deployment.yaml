@@ -15,35 +15,6 @@ spec:
         app: magneto
         version: 'v1'
     spec:
-      affinity:
-        podAntiAffinity:
-          preferredDuringSchedulingIgnoredDuringExecution:
-            - podAffinityTerm:
-                labelSelector:
-                  matchExpressions:
-                    - key: app
-                      operator: In
-                      values:
-                        - magneto
-                topologyKey: kubernetes.io/hostname
-              weight: 100
-      initContainers:
-        - name: init-ds
-          image: busybox:latest
-          command:
-            - '/bin/sh'
-            - '-c'
-            - |
-              while true
-              do
-                rt=$(nc -z -w 1 magneto-postgresql 5432)
-                if [ $? -eq 0 ]; then
-                  echo "DB is UP"
-                  break
-                fi
-                echo "DB is not yet reachable;sleep for 10s before retry"
-                sleep 10
-              done
       containers:
         - name: magneto-app
           image: jhorber95/magneto:2.0
@@ -70,13 +41,13 @@ spec:
               containerPort: 8080
           readinessProbe:
             httpGet:
-              path: /management/health/readiness
+              path: /
               port: http
             initialDelaySeconds: 20
             periodSeconds: 15
             failureThreshold: 6
           livenessProbe:
             httpGet:
-              path: /management/health/liveness
+              path: /
               port: http
             initialDelaySeconds: 120

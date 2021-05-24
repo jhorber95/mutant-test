@@ -17,5 +17,3 @@ spec:
           value: prod,swagger
         - name: SPRING_DATASOURCE_URL
           value: jdbc:postgresql://magneto-postgresql.default.svc.cluster.local:5432/mercado
-        - name: APP_SLEEP
-          value: 30
