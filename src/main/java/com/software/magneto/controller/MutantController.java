@@ -8,6 +8,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+
 @RestController
 @RequestMapping
 @RequiredArgsConstructor
@@ -31,7 +34,8 @@ public class MutantController {
     }
 
     @GetMapping("/")
-    public ResponseEntity<String> index(){
-        return new ResponseEntity<>("Mutant selector system", HttpStatus.OK);
+    public ResponseEntity<String> index() throws UnknownHostException {
+        String hostAddress = InetAddress.getLocalHost().getHostName();
+        return new ResponseEntity<>("Mutant selector system \n hostname: " + hostAddress, HttpStatus.OK);
     }
 }
