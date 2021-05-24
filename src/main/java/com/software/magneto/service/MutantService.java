@@ -18,7 +18,6 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 
-
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -62,6 +61,13 @@ public class MutantService {
 
     public StatisticDTO getStatistic() {
         List<Statistics> data = statisticsRepository.findAll();
+        if (data.isEmpty()) {
+            return StatisticDTO.builder()
+                    .ratio(0.0)
+                    .countMutantDna(0L)
+                    .countHumanDna(0L)
+                    .build();
+        }
 
         StatisticDTO response = new StatisticDTO();
         for (Statistics s : data) {
@@ -72,7 +78,7 @@ public class MutantService {
             }
         }
 
-        double ratio =  (double) response.getCountMutantDna() / response.getCountHumanDna();
+        double ratio = (double) response.getCountMutantDna() / response.getCountHumanDna();
         response.setRatio(Util.round(ratio, 1));
 
         return response;
@@ -112,7 +118,7 @@ public class MutantService {
     public int printColumns(String[][] matrix) {
         int contMatchers = 0;
 
-        for (int j  = 0; j< matrix[0].length; j++) {
+        for (int j = 0; j < matrix[0].length; j++) {
             StringBuilder s = new StringBuilder();
 
             for (String[] ints : matrix) {
